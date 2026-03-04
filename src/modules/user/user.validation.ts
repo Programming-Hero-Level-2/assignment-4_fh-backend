@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import { DEFAULT_PAGE_SIZE } from '../../constants';
+import { PaginationQuerySchema } from '../../shared/schemas/pagination.schema';
+import { SortQuerySchema } from '../../shared/schemas/sort.schema';
 
 export const Role = {
   CUSTOMER: 'CUSTOMER',
@@ -34,11 +37,30 @@ export const CreateUserSchema = UserSchema.pick({
 export const UpdateUserSchema = UserSchema.partial().pick({
   name: true,
   email: true,
-  password: true,
   role: true,
   status: true,
 });
 
+export const UserFilterSchema = z
+  .object({
+    name: z.string(),
+    role: z.enum(Role),
+    status: z.enum(UserStatus),
+  })
+  .partial();
+
+export const UserQuerySchema = z
+  .object({
+    filter: UserFilterSchema,
+    pagination: PaginationQuerySchema,
+    sort: SortQuerySchema,
+  })
+  .partial();
+
 export type User = z.infer<typeof UserSchema>;
 export type CreateUser = z.infer<typeof CreateUserSchema>;
 export type UpdateUser = z.infer<typeof UpdateUserSchema>;
+
+// filter and pagination
+export type UserFilter = z.infer<typeof UserFilterSchema>;
+export type UserQuery = z.infer<typeof UserQuerySchema>;

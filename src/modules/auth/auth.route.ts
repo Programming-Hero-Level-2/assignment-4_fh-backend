@@ -8,4 +8,4 @@ router
   .post('/register', authController.customerRegister)
   .post('/provider-signup', authController.providerSignup);
 
-export const authRoutes = router;
+export const authRoute = router;
