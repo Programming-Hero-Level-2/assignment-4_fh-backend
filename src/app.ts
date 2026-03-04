@@ -7,6 +7,7 @@ import { ApiResponse } from './utils/ApiResponse';
 import { ApiError } from './utils/ApiError';
 import { globalErrorHandler } from './utils/globalErrorHandler';
 import { asyncHandler } from './utils/asyncHandler';
+import router from './routes';
 
 const app: Application = express();
 
@@ -29,7 +30,7 @@ app.get(
   }),
 );
 
-// app.use('/api/v1', router);
+app.use('/api/v1', router);
 
 // Handle 404 for undefined routes
 app.use(
