@@ -4,6 +4,7 @@ import { prisma } from '../../lib/prisma';
 import { PaginationMeta } from '../../shared/schemas/pagination.schema';
 import { SORT_BY, SORT_TYPE } from '../../shared/schemas/sort.schema';
 import { ApiError } from '../../utils/ApiError';
+import { generateSlug } from '../../utils/slug';
 import { userService } from '../user/user.service';
 import {
   CreateProviderProfile,
@@ -184,6 +185,7 @@ const create = async (
       deliveryFee: data.deliveryFee,
       deliveryTime: data.deliveryTime,
       minimumOrderAmount: data.minimumOrderAmount,
+      slug: generateSlug(data.name),
       ownerId: userId,
       ...(data.cuisineIds?.length && {
         cuisines: {

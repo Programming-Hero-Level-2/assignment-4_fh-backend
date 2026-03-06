@@ -15,6 +15,14 @@ export const ProviderProfileSchema = z.object({
   businessEmail: z.email().nullable().optional(),
   phone: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
+  slug: z
+    .string()
+    .min(3)
+    .optional()
+    .transform((val, ctx) => {
+      // auto-generate slug from name if not provided - handled in service
+      return val;
+    }),
   address: z
     .string()
     .min(5, { message: 'Address must be at least 5 characters long' })

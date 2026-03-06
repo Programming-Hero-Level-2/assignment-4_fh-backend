@@ -1,10 +1,11 @@
 model ProviderProfile {
-  id      String  @id @default(uuid())
-  name    String
-  bio     String?
-  address String
-  phone   String?
+  id            String  @id @default(uuid())
+  name          String
+  bio           String?
+  address       String
+  phone         String?
   businessEmail String?
+  slug          String  @unique
 
   logo  String?
   cover String?
@@ -20,10 +21,12 @@ model ProviderProfile {
   deliveryTime       Int   @default(0)
   minimumOrderAmount Float @default(1)
 
-  cuisines    Cuisine[]
+  cuisines Cuisine[]
+  meals    Meal[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  mealCategories MealCategory[]
 
   @@map("provider_profiles")
 }
