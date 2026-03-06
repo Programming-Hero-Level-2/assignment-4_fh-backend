@@ -1,0 +1,21 @@
+enum CategoryStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Cuisine {
+  id          String         @id @default(uuid())
+  name        String         @unique
+  description String?
+  slug        String         @unique
+  imageUrl    String?
+  status      CategoryStatus @default(ACTIVE)
+
+  providers ProviderProfile[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@map("cuisines")
+}
