@@ -51,6 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Cuisine: 'Cuisine',
+  ProviderProfile: 'ProviderProfile',
   User: 'User'
 } as const
 
@@ -68,6 +70,43 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CuisineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  slug: 'slug',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CuisineScalarFieldEnum = (typeof CuisineScalarFieldEnum)[keyof typeof CuisineScalarFieldEnum]
+
+
+export const ProviderProfileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  bio: 'bio',
+  address: 'address',
+  phone: 'phone',
+  businessEmail: 'businessEmail',
+  logo: 'logo',
+  cover: 'cover',
+  ownerId: 'ownerId',
+  openingHours: 'openingHours',
+  closingHours: 'closingHours',
+  isOpen: 'isOpen',
+  deliveryFee: 'deliveryFee',
+  deliveryTime: 'deliveryTime',
+  minimumOrderAmount: 'minimumOrderAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProviderProfileScalarFieldEnum = (typeof ProviderProfileScalarFieldEnum)[keyof typeof ProviderProfileScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -98,4 +137,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

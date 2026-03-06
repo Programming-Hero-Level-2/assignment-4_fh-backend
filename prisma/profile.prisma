@@ -1,0 +1,29 @@
+model ProviderProfile {
+  id      String  @id @default(uuid())
+  name    String
+  bio     String?
+  address String
+  phone   String?
+  businessEmail String?
+
+  logo  String?
+  cover String?
+
+  ownerId String @unique
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  openingHours String
+  closingHours String
+  isOpen       Boolean @default(false)
+
+  deliveryFee        Float @default(0)
+  deliveryTime       Int   @default(0)
+  minimumOrderAmount Float @default(1)
+
+  cuisines    Cuisine[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("provider_profiles")
+}
