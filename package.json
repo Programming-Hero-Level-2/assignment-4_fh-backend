@@ -13,7 +13,10 @@
     "seed:admin": "npx tsx src/seed/seedAdmin.ts",
     "seed:users": "npx tsx src/seed/seedUsers.ts",
     "seed:cuisine": "npx tsx src/seed/seedCuisine.ts",
-    "seed:all": "npm run seed:admin && npm run seed:users && npm run seed:cuisine"
+    "seed:meal-categories": "npx tsx src/seed/seedMealCategory.ts",
+    "seed:meals": "npx tsx src/seed/seedMeal.ts",
+    "seed:provider-data": "npx tsx src/seed/seedProviderData.ts",
+    "seed:all": "npm run seed:admin && npm run seed:users && npm run seed:cuisine && npm run seed:meal-categories && npm run seed:meals"
   },
   "keywords": [
     "express",

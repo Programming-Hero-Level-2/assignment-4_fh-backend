@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type Cuisine = Prisma.CuisineModel
 /**
+ * Model Meal
+ * 
+ */
+export type Meal = Prisma.MealModel
+/**
+ * Model MealCategory
+ * 
+ */
+export type MealCategory = Prisma.MealCategoryModel
+/**
  * Model ProviderProfile
  * 
  */

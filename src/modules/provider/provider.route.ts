@@ -1,5 +1,7 @@
+import { attachProviderId } from './../../middlewares/auth';
 import express from 'express';
 import { providerController } from './provider.controller';
+import { authenticate } from '../../middlewares/auth';
 
 const router = express.Router();
 
@@ -11,7 +13,12 @@ router
 /* -- PROTECTED: Provider Routes -- */
 router
   .post('/provider', providerController.createProvideProfile)
-  .get('/provider/:userId', providerController.findProviderByUserId)
+  .get(
+    '/provider',
+    authenticate,
+    attachProviderId,
+    providerController.findProviderByUserId,
+  )
   .patch('/provider/:userId', providerController.updateProviderProfile);
 
 /* --- PUBLIC --- */

@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Cuisine: 'Cuisine',
+  Meal: 'Meal',
+  MealCategory: 'MealCategory',
   ProviderProfile: 'ProviderProfile',
   User: 'User'
 } as const
@@ -86,6 +88,43 @@ export const CuisineScalarFieldEnum = {
 export type CuisineScalarFieldEnum = (typeof CuisineScalarFieldEnum)[keyof typeof CuisineScalarFieldEnum]
 
 
+export const MealScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  slug: 'slug',
+  price: 'price',
+  discount: 'discount',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  discountType: 'discountType',
+  isVegan: 'isVegan',
+  isBestSeller: 'isBestSeller',
+  preparationTime: 'preparationTime',
+  providerId: 'providerId',
+  mealCategoryId: 'mealCategoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MealScalarFieldEnum = (typeof MealScalarFieldEnum)[keyof typeof MealScalarFieldEnum]
+
+
+export const MealCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  slug: 'slug',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  providerId: 'providerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MealCategoryScalarFieldEnum = (typeof MealCategoryScalarFieldEnum)[keyof typeof MealCategoryScalarFieldEnum]
+
+
 export const ProviderProfileScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -93,6 +132,7 @@ export const ProviderProfileScalarFieldEnum = {
   address: 'address',
   phone: 'phone',
   businessEmail: 'businessEmail',
+  slug: 'slug',
   logo: 'logo',
   cover: 'cover',
   ownerId: 'ownerId',

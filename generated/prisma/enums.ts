@@ -17,6 +17,22 @@ export const CategoryStatus = {
 export type CategoryStatus = (typeof CategoryStatus)[keyof typeof CategoryStatus]
 
 
+export const MealStatus = {
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE'
+} as const
+
+export type MealStatus = (typeof MealStatus)[keyof typeof MealStatus]
+
+
+export const DiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED_AMOUNT: 'FIXED_AMOUNT'
+} as const
+
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
+
+
 export const Role = {
   CUSTOMER: 'CUSTOMER',
   PROVIDER: 'PROVIDER',
