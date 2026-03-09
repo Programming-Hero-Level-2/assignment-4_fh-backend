@@ -83,7 +83,7 @@ const getPublicProviderById = asyncHandler(async (req, res) => {
 /* --- PROVIDER-ONLY --- */
 
 const findProviderByUserId = asyncHandler(async (req, res) => {
-  const userId = IDSchema.parse(req.params.userId);
+  const userId = IDSchema.parse(req.user?.userId);
 
   const providerProfile = await providerService.findProviderByUserId(userId);
 
@@ -167,7 +167,7 @@ const findAllAdminProviders = asyncHandler(async (req, res) => {
     },
   });
 
-  const providers = await providerService.findAllProviders({});
+  const providers = await providerService.findAllProviders(queryParams);
 
   const response = providers.data.map((provider) => ({
     id: provider.id,

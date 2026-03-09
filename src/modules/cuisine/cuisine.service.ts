@@ -4,6 +4,7 @@ import { prisma } from '../../lib/prisma';
 import { PaginationMeta } from '../../shared/schemas/pagination.schema';
 import { SORT_BY, SORT_TYPE } from '../../shared/schemas/sort.schema';
 import { ApiError } from '../../utils/ApiError';
+import { generateSlug } from '../../utils/slug';
 import {
   CategoryStatus,
   Cuisine,
@@ -12,13 +13,6 @@ import {
   UpdateCuisine,
   UpdateCuisineStatus,
 } from './cuisine.validation';
-
-const generateSlug = (name: string): string =>
-  name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-');
 
 const findAll = async ({
   filter,
