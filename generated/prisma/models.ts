@@ -11,6 +11,8 @@
 export type * from './models/Cuisine'
 export type * from './models/Meal'
 export type * from './models/MealCategory'
+export type * from './models/Order'
+export type * from './models/OrderItem'
 export type * from './models/ProviderProfile'
 export type * from './models/User'
 export type * from './commonInputTypes'

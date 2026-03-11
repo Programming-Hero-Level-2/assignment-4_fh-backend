@@ -1,0 +1,61 @@
+enum OrderStatus {
+  PLACED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  COD
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  totalAmount Decimal     @db.Decimal(10, 2)
+  totalItems  Int
+  status      OrderStatus @default(PLACED)
+
+  paymentMethod PaymentMethod @default(COD)
+  paymentStatus PaymentStatus @default(UNPAID)
+
+  deliveryAddress String
+  phone           String
+
+  userId     String
+  providerId String
+
+  user     User            @relation(fields: [userId], references: [id])
+  provider ProviderProfile @relation(fields: [providerId], references: [id])
+
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([providerId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id       String  @id @default(uuid())
+  quantity Int
+  price    Decimal @db.Decimal(10, 2)
+
+  orderId String
+  mealId  String
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  meal  Meal  @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([mealId])
+  @@map("order_items")
+}

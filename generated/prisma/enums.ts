@@ -33,6 +33,32 @@ export const DiscountType = {
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
 
 
+export const OrderStatus = {
+  PLACED: 'PLACED',
+  PREPARING: 'PREPARING',
+  READY: 'READY',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const PaymentMethod = {
+  COD: 'COD'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const PaymentStatus = {
+  UNPAID: 'UNPAID',
+  PAID: 'PAID'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
 export const Role = {
   CUSTOMER: 'CUSTOMER',
   PROVIDER: 'PROVIDER',

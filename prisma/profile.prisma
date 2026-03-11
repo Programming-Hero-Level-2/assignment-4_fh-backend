@@ -27,6 +27,7 @@ model ProviderProfile {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   mealCategories MealCategory[]
+  orders         Order[]
 
   @@map("provider_profiles")
 }
