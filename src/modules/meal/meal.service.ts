@@ -396,7 +396,7 @@ const createMeal = async (
       slug,
       price: data.price,
       discount: data.discount,
-      discountType: data.discountType ?? 'PERCENTAGE',
+      discountType: data.discountType ?? null,
       imageUrl: data.imageUrl,
       status: data.status ?? 'AVAILABLE',
       isVegan: data.isVegan ?? false,

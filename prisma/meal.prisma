@@ -18,7 +18,7 @@ model Meal {
   imageUrl    String?
   status      MealStatus @default(AVAILABLE)
 
-  discountType    DiscountType @default(PERCENTAGE)
+  discountType    DiscountType? 
   isVegan         Boolean      @default(false)
   isBestSeller    Boolean      @default(false)
   preparationTime Int?
@@ -29,8 +29,9 @@ model Meal {
   mealCategoryId String?
   mealCategory   MealCategory? @relation(fields: [mealCategoryId], references: [id], onDelete: SetNull)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  orderItems OrderItem[]
 
   @@index([slug])
   @@map("meals")

@@ -61,7 +61,7 @@ export const MealSchema = z.object({
   slug: z.string().min(2),
   price: z.number().positive(),
   discount: z.number().nonnegative().optional().nullable(),
-  discountType: z.enum(DiscountType).default(DiscountType.PERCENTAGE),
+  discountType: z.enum(DiscountType).optional().nullable(),
   imageUrl: z.string().url().optional().nullable(),
   status: z.enum(MealStatus).default(MealStatus.AVAILABLE),
   isVegan: z.boolean().default(false),
