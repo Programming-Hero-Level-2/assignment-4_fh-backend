@@ -20,7 +20,15 @@ const orderInclude = {
 /* ===== Customer ===== */
 
 const placeOrder = async (userId: string, data: CreateOrder) => {
-  const { providerId, deliveryAddress, phone, paymentMethod, items } = data;
+  const {
+    providerId,
+    customerName,
+    deliveryAddress,
+    phone,
+    note,
+    paymentMethod,
+    items,
+  } = data;
 
   const provider = await prisma.providerProfile.findUnique({
     where: { id: providerId },
@@ -83,8 +91,10 @@ const placeOrder = async (userId: string, data: CreateOrder) => {
     data: {
       userId,
       providerId,
+      customerName,
       deliveryAddress,
       phone,
+      note,
       paymentMethod,
       totalAmount,
       totalItems,

@@ -25,8 +25,10 @@ model Order {
   paymentMethod PaymentMethod @default(COD)
   paymentStatus PaymentStatus @default(UNPAID)
 
+  customerName String
   deliveryAddress String
   phone           String
+  note String?
 
   userId     String
   providerId String

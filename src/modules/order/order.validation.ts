@@ -35,8 +35,10 @@ export const OrderItemSchema = z.object({
 /* ---------- Create Order ---------- */
 export const CreateOrderSchema = z.object({
   providerId: z.uuid(),
+  customerName: z.string().min(2),
   deliveryAddress: z.string().min(5),
   phone: z.string().min(7),
+  note: z.string().max(500).optional(),
   paymentMethod: z.enum(PaymentMethod).default(PaymentMethod.COD),
   items: z.array(OrderItemSchema).min(1),
 });

@@ -11,7 +11,7 @@ const router = express.Router();
 /* ===== Customer ===== */
 // Place an order
 router.post(
-  '/',
+  '/checkout',
   authenticate,
   requireRole('CUSTOMER'),
   orderController.placeOrder,
@@ -19,10 +19,17 @@ router.post(
 
 // View my orders
 router.get(
-  '/my',
+  '/orders',
   authenticate,
   requireRole('CUSTOMER'),
   orderController.getMyOrders,
+);
+
+router.get(
+  '/orders/:id',
+  authenticate,
+  requireRole('CUSTOMER'),
+  orderController.getOrderById,
 );
 
 /* ===== Provider ===== */
@@ -62,4 +69,4 @@ router.get(
   orderController.getOrderById,
 );
 
-export const OrderRoutes = router;
+export const orderRoutes = router;
