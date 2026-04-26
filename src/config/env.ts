@@ -28,7 +28,9 @@ export const ENV = {
   NODE_ENV: env.data.NODE_ENV,
   PORT: Number(env.data.PORT),
   DATABASE_URL: env.data.DATABASE_URL,
-  CORS_ORIGIN: env.data.CORS_ORIGIN,
+  CORS_ORIGIN: env.data.CORS_ORIGIN.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
   ACCESS_TOKEN_SECRET: env.data.ACCESS_TOKEN_SECRET,
   TOKEN_EXPIRES_IN: env.data.TOKEN_EXPIRES_IN,
   ADMIN_EMAIL: env.data.ADMIN_EMAIL,

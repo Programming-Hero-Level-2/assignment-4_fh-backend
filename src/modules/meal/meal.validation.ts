@@ -8,7 +8,7 @@ export const MealStatus = {
 } as const;
 export const DiscountType = {
   PERCENTAGE: 'PERCENTAGE',
-  FIXED_AMOUNT: 'FIXED_AMOUNT',
+  FIXED: 'FIXED',
 } as const;
 export const CategoryStatus = {
   ACTIVE: 'ACTIVE',
@@ -95,7 +95,6 @@ export const MealQuerySchema = z
         status: z.enum(MealStatus),
         isVegan: z.boolean(),
         isBestSeller: z.boolean(),
-        mealCategoryId: z.uuid(),
       })
       .partial()
       .optional(),

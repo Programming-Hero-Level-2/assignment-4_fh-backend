@@ -13,6 +13,15 @@ import {
   UpdateProviderProfile,
 } from './provider.validation';
 
+const PRICE_TIER_RANGE: Record<
+  'budget' | 'mid' | 'premium',
+  Prisma.FloatFilter
+> = {
+  budget: { lte: 300 },
+  mid: { gt: 300, lte: 700 },
+  premium: { gt: 700 },
+};
+
 const findAllProviders = async ({
   filter,
   pagination,
@@ -21,17 +30,99 @@ const findAllProviders = async ({
   data: ProviderProfile[];
   pagination: PaginationMeta;
 }> => {
-  const { name, isOpen } = filter || {};
+  const { name, isOpen, category, isVeg, rating, maxDeliveryTime, priceRange } =
+    filter || {};
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = pagination || {};
   const { sortBy = SORT_BY.CREATED_AT, sortType = SORT_TYPE.DESC } = sort || {};
 
   const sanitizedPageSize = Math.min(Math.max(pageSize, 1), MAX_PAGE_SIZE);
   const skipAmount = (page - 1) * sanitizedPageSize;
 
-  const whereClause: Prisma.ProviderProfileWhereInput = {
+  let whereClause: Prisma.ProviderProfileWhereInput = {
     ...(name && { name: { contains: name, mode: 'insensitive' } }),
     ...(isOpen !== undefined && { isOpen: { equals: isOpen } }),
+    ...(category &&
+      category.length > 0 && {
+        // AND: [
+        //   {
+        //     cuisines: {
+        //       some: {
+        //         name: {
+        //           in: [
+        //             'japanese',
+        //             'mediterranean',
+        //             'italian',
+        //             'indian',
+        //             'mexican',
+        //             'chinese',
+        //           ],
+        //           mode: 'insensitive',
+        //         },
+        //       },
+        //     },
+        //   },
+        // ],
+        AND: category.map((cat) => ({
+          cuisines: {
+            some: {
+              name: {
+                equals: cat,
+                mode: 'insensitive',
+              },
+            },
+          },
+        })),
+      }),
+    ...(isVeg !== undefined &&
+      isVeg && {
+        meals: {
+          some: {
+            isVegan: true,
+            status: 'AVAILABLE',
+          },
+        },
+      }),
+    ...(maxDeliveryTime !== undefined && {
+      deliveryTime: { lte: maxDeliveryTime },
+    }),
+    ...(priceRange && {
+      minimumOrderAmount: PRICE_TIER_RANGE[priceRange],
+    }),
   };
+
+  if (rating !== undefined) {
+    const ratingGroups = await prisma.review.groupBy({
+      by: ['providerId'],
+      _avg: { rating: true },
+      having: {
+        rating: {
+          _avg: {
+            gte: rating,
+          },
+        },
+      },
+    });
+
+    const providerIds = ratingGroups.map((group) => group.providerId);
+
+    if (!providerIds.length) {
+      return {
+        data: [],
+        pagination: {
+          totalItems: 0,
+          totalPages: 0,
+          currentPage: 1,
+          next: null,
+          prev: null,
+        },
+      };
+    }
+
+    whereClause = {
+      ...whereClause,
+      id: { in: providerIds },
+    };
+  }
 
   const providers = await prisma.providerProfile.findMany({
     where: whereClause,
@@ -46,6 +137,11 @@ const findAllProviders = async ({
         },
       },
       cuisines: {
+        // where: {
+        //   some: {
+        //     name: { contains: category, mode: 'insensitive' },
+        //   },
+        // },
         select: {
           id: true,
           name: true,
@@ -182,6 +278,7 @@ const create = async (
       openingHours: data.openingHours,
       closingHours: data.closingHours,
       isOpen: data.isOpen,
+      isFeatured: data.isFeatured,
       deliveryFee: data.deliveryFee,
       deliveryTime: data.deliveryTime,
       minimumOrderAmount: data.minimumOrderAmount,
@@ -241,11 +338,11 @@ const update = async (
       throw new ApiError(400, `Cuisines not found: ${missing.join(', ')}`);
     }
   }
-
   const profile = await prisma.providerProfile.update({
     where: { id },
     data: {
       name: data.name,
+      slug: data.name ? generateSlug(data.name) : existingProfile.slug,
       businessEmail: data.businessEmail,
       phone: data.phone,
       bio: data.bio,
@@ -255,6 +352,7 @@ const update = async (
       openingHours: data.openingHours,
       closingHours: data.closingHours,
       isOpen: data.isOpen,
+      isFeatured: data.isFeatured,
       deliveryFee: data.deliveryFee,
       deliveryTime: data.deliveryTime,
       minimumOrderAmount: data.minimumOrderAmount,
@@ -292,6 +390,67 @@ const update = async (
   return profile;
 };
 
+const findAllFeaturedProviders = async ({
+  pagination,
+  sort,
+}: ProviderQuery): Promise<{
+  data: ProviderProfile[];
+  pagination: PaginationMeta;
+}> => {
+  const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = pagination || {};
+  const { sortBy = SORT_BY.CREATED_AT, sortType = SORT_TYPE.DESC } = sort || {};
+
+  const sanitizedPageSize = Math.min(Math.max(pageSize, 1), MAX_PAGE_SIZE);
+  const skipAmount = (page - 1) * sanitizedPageSize;
+
+  const whereClause: Prisma.ProviderProfileWhereInput = {
+    isFeatured: true,
+  };
+
+  const providers = await prisma.providerProfile.findMany({
+    where: whereClause,
+    include: {
+      owner: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          status: true,
+        },
+      },
+      cuisines: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+    },
+    omit: {
+      ownerId: true,
+    },
+    skip: skipAmount,
+    take: sanitizedPageSize,
+    orderBy: { [sortBy]: sortType },
+  });
+
+  const total = await prisma.providerProfile.count({ where: whereClause });
+  const totalPages = Math.ceil(total / sanitizedPageSize);
+  const currentPage = Math.floor(skipAmount / sanitizedPageSize) + 1;
+
+  return {
+    data: providers,
+    pagination: {
+      totalItems: total,
+      totalPages,
+      currentPage,
+      next: currentPage < totalPages ? currentPage + 1 : null,
+      prev: currentPage > 1 ? currentPage - 1 : null,
+    },
+  };
+};
+
 export const providerService = {
   //   getByUserId,
   // getProviderById,
@@ -300,5 +459,6 @@ export const providerService = {
   update,
   // public
   findAllProviders,
+  findAllFeaturedProviders,
   getProviderById,
 };

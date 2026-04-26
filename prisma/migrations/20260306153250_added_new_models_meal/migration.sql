@@ -2,7 +2,7 @@
 CREATE TYPE "MealStatus" AS ENUM ('AVAILABLE', 'UNAVAILABLE');
 
 -- CreateEnum
-CREATE TYPE "DiscountType" AS ENUM ('PERCENTAGE', 'FIXED_AMOUNT');
+CREATE TYPE "DiscountType" AS ENUM ('PERCENTAGE', 'FIXED');
 
 -- CreateTable
 CREATE TABLE "meals" (

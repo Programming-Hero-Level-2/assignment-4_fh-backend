@@ -12,7 +12,7 @@ export const CuisineSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   description: z.string().optional().nullable(),
   slug: z.string().min(2, 'Slug must be at least 2 characters'),
-  imageUrl: z.string().url('Invalid image URL').optional().nullable(),
+  imageUrl: z.url('Invalid image URL').optional().nullable(),
   status: z.enum(CategoryStatus).default(CategoryStatus.ACTIVE),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -30,7 +30,7 @@ export const CreateCuisineSchema = CuisineSchema.omit({
     .transform((val, ctx) => {
       // auto-generate slug from name if not provided - handled in service
       return val;
-    }),
+    }).optional(),
 });
 
 export const UpdateCuisineSchema = CreateCuisineSchema.partial();

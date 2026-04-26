@@ -35,6 +35,7 @@ model Order {
   provider ProviderProfile @relation(fields: [providerId], references: [id])
 
   items OrderItem[]
+  review Review?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -32,7 +32,7 @@ type MealDef = {
   description: string;
   price: number;
   discount: number | null;
-  discountType: 'PERCENTAGE' | 'FIXED_AMOUNT';
+  discountType: 'PERCENTAGE' | 'FIXED';
   isVegan: boolean;
   isBestSeller: boolean;
   preparationTime: number;
@@ -102,7 +102,7 @@ const mealSlots: MealDef[][] = [
         'Marinated cottage cheese cubes grilled in a tandoor, served with mint chutney',
       price: 11.0,
       discount: 5,
-      discountType: 'FIXED_AMOUNT',
+      discountType: 'FIXED',
       isVegan: true,
       isBestSeller: false,
       preparationTime: 20,
@@ -228,7 +228,7 @@ const mealSlots: MealDef[][] = [
         'Southern-fried chicken thigh with jalapeño slaw and sriracha mayo',
       price: 11.0,
       discount: 5,
-      discountType: 'FIXED_AMOUNT',
+      discountType: 'FIXED',
       isVegan: false,
       isBestSeller: true,
       preparationTime: 18,
@@ -366,7 +366,7 @@ const mealSlots: MealDef[][] = [
         'Clear broth with shredded chicken, egg noodles, and vegetables',
       price: 9.0,
       discount: 5,
-      discountType: 'FIXED_AMOUNT',
+      discountType: 'FIXED',
       isVegan: false,
       isBestSeller: true,
       preparationTime: 15,

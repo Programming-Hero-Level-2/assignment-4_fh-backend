@@ -57,6 +57,7 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   ProviderProfile: 'ProviderProfile',
+  Review: 'Review',
   User: 'User'
 } as const
 
@@ -170,6 +171,7 @@ export const ProviderProfileScalarFieldEnum = {
   openingHours: 'openingHours',
   closingHours: 'closingHours',
   isOpen: 'isOpen',
+  isFeatured: 'isFeatured',
   deliveryFee: 'deliveryFee',
   deliveryTime: 'deliveryTime',
   minimumOrderAmount: 'minimumOrderAmount',
@@ -178,6 +180,20 @@ export const ProviderProfileScalarFieldEnum = {
 } as const
 
 export type ProviderProfileScalarFieldEnum = (typeof ProviderProfileScalarFieldEnum)[keyof typeof ProviderProfileScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  orderId: 'orderId',
+  userId: 'userId',
+  providerId: 'providerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

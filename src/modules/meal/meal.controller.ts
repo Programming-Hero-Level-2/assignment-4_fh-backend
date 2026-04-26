@@ -144,7 +144,6 @@ const getProviderMeals = asyncHandler(async (req, res) => {
         req.query.isBestSeller !== undefined
           ? req.query.isBestSeller === 'true'
           : undefined,
-      mealCategoryId: req.query.mealCategoryId,
     },
     pagination: {
       page: req.query.page && Number(req.query.page),
@@ -205,7 +204,7 @@ const updateMeal = asyncHandler(async (req, res) => {
 const updateMealStatus = asyncHandler(async (req, res) => {
   const id = IDSchema.parse(req.params.id);
   const providerId = getProviderId(req);
-
+  console.log('REQ BODY: >>', req.body);
   const data = UpdateMealStatusSchema.parse(req.body);
   const meal = await mealService.updateMealStatus(id, providerId, data);
 

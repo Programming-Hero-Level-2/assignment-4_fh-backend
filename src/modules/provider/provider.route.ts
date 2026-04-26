@@ -12,18 +12,25 @@ router
 
 /* -- PROTECTED: Provider Routes -- */
 router
-  .post('/provider', providerController.createProvideProfile)
+  .post('/provider', authenticate, providerController.createProvideProfile)
   .get(
     '/provider',
     authenticate,
     attachProviderId,
     providerController.findProviderByUserId,
   )
-  .patch('/provider/:userId', providerController.updateProviderProfile);
+  // .get(
+  //   '/provider/user/:userId',
+  //   authenticate,
+  //   attachProviderId,
+  //   providerController.findProviderByUserId,
+  // )
+  .patch('/provider/:id', providerController.updateProviderProfile);
 
 /* --- PUBLIC --- */
 router
-  .get('/', providerController.findAllPublicProviders)
-  .get('/:id', providerController.getPublicProviderById);
+  .get('/featured', providerController.findAllFeaturedPublicProviders)
+  .get('/:id', providerController.getPublicProviderById)
+  .get('/', providerController.findAllPublicProviders);
 
 export const providerRoutes = router;

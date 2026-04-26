@@ -27,7 +27,7 @@ export type MealStatus = (typeof MealStatus)[keyof typeof MealStatus]
 
 export const DiscountType = {
   PERCENTAGE: 'PERCENTAGE',
-  FIXED_AMOUNT: 'FIXED_AMOUNT'
+  FIXED: 'FIXED'
 } as const
 
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]

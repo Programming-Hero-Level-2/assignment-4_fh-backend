@@ -48,6 +48,11 @@ export type OrderItem = Prisma.OrderItemModel
  */
 export type ProviderProfile = Prisma.ProviderProfileModel
 /**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
  * Model User
  * 
  */

@@ -21,6 +21,7 @@ model User {
   updatedAt       DateTime         @updatedAt
   providerProfile ProviderProfile?
   orders          Order[]
+  reviews         Review[]
 
   @@index([status])
   @@map("users")

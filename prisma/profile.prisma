@@ -16,6 +16,7 @@ model ProviderProfile {
   openingHours String
   closingHours String
   isOpen       Boolean @default(false)
+  isFeatured   Boolean @default(false)
 
   deliveryFee        Float @default(0)
   deliveryTime       Int   @default(0)
@@ -28,6 +29,7 @@ model ProviderProfile {
   updatedAt      DateTime       @updatedAt
   mealCategories MealCategory[]
   orders         Order[]
+  reviews        Review[]
 
   @@map("provider_profiles")
 }

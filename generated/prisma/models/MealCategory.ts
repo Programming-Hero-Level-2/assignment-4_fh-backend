@@ -234,11 +234,12 @@ export type MealCategoryOrderByWithRelationInput = {
 
 export type MealCategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   slug?: string
+  name_providerId?: Prisma.MealCategoryNameProviderIdCompoundUniqueInput
   AND?: Prisma.MealCategoryWhereInput | Prisma.MealCategoryWhereInput[]
   OR?: Prisma.MealCategoryWhereInput[]
   NOT?: Prisma.MealCategoryWhereInput | Prisma.MealCategoryWhereInput[]
+  name?: Prisma.StringFilter<"MealCategory"> | string
   description?: Prisma.StringNullableFilter<"MealCategory"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"MealCategory"> | string | null
   status?: Prisma.EnumCategoryStatusFilter<"MealCategory"> | $Enums.CategoryStatus
@@ -247,7 +248,7 @@ export type MealCategoryWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"MealCategory"> | Date | string
   provider?: Prisma.XOR<Prisma.ProviderProfileScalarRelationFilter, Prisma.ProviderProfileWhereInput>
   meals?: Prisma.MealListRelationFilter
-}, "id" | "name" | "slug">
+}, "id" | "slug" | "name_providerId">
 
 export type MealCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -369,6 +370,11 @@ export type MealCategoryUncheckedUpdateManyInput = {
 export type MealCategoryNullableScalarRelationFilter = {
   is?: Prisma.MealCategoryWhereInput | null
   isNot?: Prisma.MealCategoryWhereInput | null
+}
+
+export type MealCategoryNameProviderIdCompoundUniqueInput = {
+  name: string
+  providerId: string
 }
 
 export type MealCategoryCountOrderByAggregateInput = {

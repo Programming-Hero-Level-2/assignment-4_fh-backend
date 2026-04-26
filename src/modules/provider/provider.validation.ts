@@ -38,6 +38,7 @@ export const ProviderProfileSchema = z.object({
     message: 'Closing hours cannot be empty',
   }),
   isOpen: z.boolean().default(false),
+  isFeatured: z.boolean().default(false),
   deliveryFee: z
     .number()
     .nonnegative('Delivery fee must be a non-negative number'),
@@ -62,6 +63,8 @@ export const CreateProviderProfileSchema = ProviderProfileSchema.omit({
   createdAt: true,
   updatedAt: true,
   owner: true,
+  slug: true,
+  cuisines: true,
 }).extend({
   cuisineIds: z.array(z.uuid()).optional(),
 });
@@ -72,8 +75,12 @@ export const UpdateProviderProfileSchema =
 export const ProviderFilterSchema = z
   .object({
     name: z.string(),
-    phone: z.string(),
     isOpen: z.boolean(),
+    category: z.array(z.string()),
+    isVeg: z.boolean(),
+    rating: z.number().min(1).max(5),
+    priceRange: z.enum(['budget', 'mid', 'premium']),
+    maxDeliveryTime: z.number().positive(),
   })
   .partial();
 

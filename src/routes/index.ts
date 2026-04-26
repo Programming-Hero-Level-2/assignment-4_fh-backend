@@ -5,6 +5,7 @@ import { providerRoutes } from '../modules/provider/provider.route';
 import { cuisineRouter } from '../modules/cuisine/cuisine.route';
 import { mealRouter } from '../modules/meal/meal.route';
 import { OrderRoutes } from '../modules/order/order.route';
+import { reviewRoutes } from '../modules/review/review.route';
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use('/cuisines', cuisineRouter);
 router.use('/restaurants', providerRoutes);
 router.use('/', mealRouter);
 router.use('/orders', OrderRoutes);
+router.use('/reviews', reviewRoutes);
 
 export default router;

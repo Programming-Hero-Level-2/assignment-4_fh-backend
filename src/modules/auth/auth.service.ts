@@ -13,6 +13,7 @@ const registerUser = async ({
   status = UserStatus.ACTIVE,
 }: CreateUser): Promise<Omit<User, 'password'>> => {
   const existingUser = await userService.userExist(email);
+  console.log('Checking if user exists:', existingUser);
 
   if (existingUser) {
     throw new ApiError(409, 'User already registered');

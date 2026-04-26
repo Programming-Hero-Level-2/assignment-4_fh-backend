@@ -6,12 +6,12 @@ import { authValidationSchema } from './auth.validation';
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = authValidationSchema.loginSchema.parse(req.body);
-  const { user, accessToken } = await authService.loginUser(email, password);
+  const { accessToken } = await authService.loginUser(email, password);
 
   res.cookie('access_token', accessToken, {
+    secure: false,
     httpOnly: true,
-    secure: false, // 🔥 IMPORTANT for localhost
-    sameSite: 'lax', // 🔥 change from 'none'
+    sameSite: 'strict', // none / strict / lax
   });
 
   res
