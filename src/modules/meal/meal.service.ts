@@ -110,9 +110,9 @@ const createMealCategory = async (
   providerId: string,
   data: CreateMealCategory,
 ): Promise<MealCategory> => {
-  const slug = data.slug ?? generateSlug(data.name);
+  const slug = data.slug ?? `${generateSlug(data.name)}-${providerId.slice(0, 5)}`;
   const existing = await prisma.mealCategory.findFirst({
-    where: { OR: [{ name: data.name }, { slug }] },
+    where: { AND: [{ name: data.name }, { providerId }, { slug }] },
   });
 
   if (existing)
@@ -215,8 +215,7 @@ const findMealsByProvider = async (
   providerId: string,
   query: MealQuery,
 ): Promise<{ data: Meal[]; pagination: PaginationMeta }> => {
-  const { name, status, isVegan, isBestSeller, mealCategoryId } =
-    query?.filter || {};
+  const { name, status, isVegan, isBestSeller } = query?.filter || {};
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = query?.pagination || {};
   const { sortBy = SORT_BY.CREATED_AT, sortType = SORT_TYPE.DESC } =
     query?.sort || {};
@@ -230,7 +229,6 @@ const findMealsByProvider = async (
     ...(status && { status }),
     ...(isVegan !== undefined && { isVegan }),
     ...(isBestSeller !== undefined && { isBestSeller }),
-    ...(mealCategoryId && { mealCategoryId }),
   };
 
   const [data, total] = await Promise.all([
@@ -281,7 +279,7 @@ const findPublicMealsByProvider = async (
   providerId: string,
   query: MealQuery,
 ): Promise<{ data: Meal[]; pagination: PaginationMeta }> => {
-  const { name, isVegan, isBestSeller, mealCategoryId } = query?.filter || {};
+  const { name, isVegan, isBestSeller } = query?.filter || {};
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = query?.pagination || {};
   const { sortBy = SORT_BY.CREATED_AT, sortType = SORT_TYPE.DESC } =
     query?.sort || {};
@@ -295,7 +293,6 @@ const findPublicMealsByProvider = async (
     ...(name && { name: { contains: name, mode: 'insensitive' } }),
     ...(isVegan !== undefined && { isVegan }),
     ...(isBestSeller !== undefined && { isBestSeller }),
-    ...(mealCategoryId && { mealCategoryId }),
   };
 
   const [data, total] = await Promise.all([
@@ -315,7 +312,6 @@ const findPublicMealsByProvider = async (
       omit: {
         status: true,
         mealCategoryId: true,
-        discountType: true,
         createdAt: true,
         updatedAt: true,
         providerId: true,
@@ -564,8 +560,7 @@ const findAllMealCategoriesForAdmin = async (
 const findAllMealsForAdmin = async (
   query: MealQuery,
 ): Promise<{ data: Meal[]; pagination: PaginationMeta }> => {
-  const { name, status, isVegan, isBestSeller, mealCategoryId } =
-    query?.filter || {};
+  const { name, status, isVegan, isBestSeller } = query?.filter || {};
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = query?.pagination || {};
   const { sortBy = SORT_BY.CREATED_AT, sortType = SORT_TYPE.DESC } =
     query?.sort || {};
@@ -578,7 +573,6 @@ const findAllMealsForAdmin = async (
     ...(status && { status }),
     ...(isVegan !== undefined && { isVegan }),
     ...(isBestSeller !== undefined && { isBestSeller }),
-    ...(mealCategoryId && { mealCategoryId }),
   };
 
   const [data, total] = await Promise.all([

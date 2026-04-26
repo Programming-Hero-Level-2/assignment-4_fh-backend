@@ -5,7 +5,7 @@ enum MealStatus {
 
 enum DiscountType {
   PERCENTAGE
-  FIXED_AMOUNT
+  FIXED
 }
 
 model Meal {
@@ -39,7 +39,7 @@ model Meal {
 
 model MealCategory {
   id          String         @id @default(uuid())
-  name        String         @unique
+  name        String         
   description String?
   slug        String         @unique
   imageUrl    String?
@@ -53,6 +53,7 @@ model MealCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([name, providerId])
   @@index([status])
   @@map("meal_categories")
 }
